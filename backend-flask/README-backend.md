@@ -3,6 +3,7 @@
 This backend serves a PyTorch model (if present) and provides a safe dummy fallback so frontend work can continue without the model file.
 
 Files:
+
 - `server.py` — Flask app with `/health` and `/predict` endpoints.
 - `predict_helpers.py` — labels, attributes and image preprocessing.
 - `model/model.pt` — NOT included. Place your trained PyTorch model here (optional).
@@ -71,5 +72,6 @@ print(resp.json())
 ```
 
 Notes:
+
 - The server will not crash if `model/model.pt` is missing. It will use simulated responses.
 - If you add a real PyTorch model, the server attempts to call it and handles both single-logit (binary) or multi-class outputs.

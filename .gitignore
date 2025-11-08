@@ -1,0 +1,8 @@
+venv/
+node_modules/
+.expo/
+.DS_Store
+frontend-expo/.expo/
+backend-flask/model/*.pt
+frontend-expo/.env
+

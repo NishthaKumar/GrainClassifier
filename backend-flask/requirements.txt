@@ -1,0 +1,12 @@
+Flask>=2.0.0
+flask-cors>=3.0.10
+Pillow>=9.0.0
+numpy>=1.21.0
+torch>=1.13.0
+torchvision>=0.14.0
+torchaudio>=0.13.0
+
+# Note for macOS M1/M2: installing torch may require platform-specific wheels.
+# Visit https://pytorch.org/get-started/locally/ and choose the appropriate command
+# for "Stable" and your macOS + Python environment. Example (as of 2025):
+#   python -m pip install --pre --extra-index-url https://download.pytorch.org/whl/nightly/cpu torch torchvision torchaudio

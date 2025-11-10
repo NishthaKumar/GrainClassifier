@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, ActivityIndicator, Alert, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, ActivityIndicator, Alert, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
 
 const SERVER_URL = (Constants.expoConfig && Constants.expoConfig.extra && Constants.expoConfig.extra.SERVER_URL) ||
   (Constants.manifest && Constants.manifest.extra && Constants.manifest.extra.SERVER_URL) ||
-  'http://127.0.0.1:5001';
+  'http://127.0.0.1::5001';
 
-const GRAIN_TYPES = ['auto', 'toor', 'chana', 'red_beans', 'kidney_beans', 'moong'];
+const GRAIN_TYPES = ['chana', 'toor', 'Red Kidney Beans', 'White Beans', 'Red Beans', 'Soya Beans', 'White Pea Beans', 'Brown Chickpea', 'Red Chickpea', 'White Chickpea'];
 
 export default function HomeScreen() {
   const [grainType, setGrainType] = useState('auto');
@@ -105,7 +105,7 @@ export default function HomeScreen() {
                   label={g}
                   value={g}
                   key={g}
-                  color="#1a2a20" // Dark color for grain choices
+                  color="#1a2a20" // Dark text color
                 />
               ))}
             </Picker>
@@ -141,15 +141,15 @@ export default function HomeScreen() {
             <Text style={styles.resultTitle}>Result</Text>
             <Text style={styles.resultText}>Predicted: <Text style={styles.bold}>{result.predicted_class}</Text></Text>
             <Text style={styles.resultText}>Confidence: <Text style={styles.bold}>{Math.round((result.confidence || 0) * 100)}%</Text></Text>
-            <Text style={styles.sectionLabel}>Attributes</Text>
+            {/* <Text style={styles.sectionLabel}>Attributes</Text>
             {result.attributes && Object.entries(result.attributes).map(([k, v]) => (
               <Text style={styles.resultText} key={k}>{k}: {String(v)}</Text>
-            ))}
-            <Text style={styles.sectionLabel}>Probabilities</Text>
+            ))} */}
+            {/* <Text style={styles.sectionLabel}>Probabilities</Text>
             {result.probabilities && Object.entries(result.probabilities).map(([k, v]) => {
               const num = Number(v) || 0;
               return <Text style={styles.resultText} key={k}>{k}: {Math.round(num * 100)}%</Text>;
-            })}
+            })} */}
           </View>
         )}
       </ScrollView>
@@ -204,14 +204,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#98bc99",
     borderRadius: 8,
-    minWidth: 170,
+    minWidth: 250,    // Widened minWidth to fit longer grain names
+    maxWidth: 320,
     backgroundColor: "#eaf7ed",
   },
   picker: {
-    color: "#1a2a20",      // Picker’s text color
+    color: "#1a2a20",
     fontWeight: "600",
     fontSize: 16,
     backgroundColor: "#eaf7ed",
+    width: "100%",    // Fill the container horizontally
   },
   buttonsRow: {
     flexDirection: "row",

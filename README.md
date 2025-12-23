@@ -137,6 +137,3 @@ Recommended ignore rules:
 - `backend-flask/model/*.pt`  
 - `frontend-expo/node_modules/`  
 - Any local environment files (for example `.env`, `.env.local`)
-
-Store secrets, local IPs, and model weights outside of version control.
-````

@@ -1,128 +1,142 @@
-\section{GrainClassifier}
 
-GrainClassifier is a mobile (Expo React Native) application with a Flask backend that uses an Ultralytics YOLOv8 classification model to identify grain types (for example, \texttt{type\_1}, \texttt{type\_2}, \texttt{toor}, etc.) from an image and return the prediction confidence.
+# GrainClassifier
 
-\subsection{Repository Structure}
+GrainClassifier is a mobile (Expo React Native) application with a Flask backend that uses an Ultralytics YOLOv8 classification model to identify grain types (for example, `type_1`, `type_2`, `toor`, etc.) from an image and return the prediction confidence.
 
-\begin{itemize}
-  \item \texttt{backend-flask/} -- Flask API and model loading code.
-  \item \texttt{frontend-expo/} -- Expo React Native frontend.
-  \item \texttt{backend-flask/model/} -- directory for trained YOLO weights (\texttt{model.pt}, not tracked in VCS).
-\end{itemize}
+---
 
-\subsection{Backend (Flask + Ultralytics)}
+## Repository Structure
 
-\subsubsection{Prerequisites}
+- `backend-flask/` — Flask API and model loading code  
+- `frontend-expo/` — Expo React Native frontend  
+- `backend-flask/model/` — Directory for trained YOLO weights (`model.pt`, not tracked in VCS)
 
-\begin{itemize}
-  \item Python 3.10 or 3.11.
-  \item \texttt{pip}.
-\end{itemize}
+---
 
-\subsubsection{Setup}
+## Backend (Flask + Ultralytics)
 
-From \texttt{backend-flask}:
+### Prerequisites
 
-\begin{verbatim}
+- Python 3.10 or 3.11  
+- `pip`
+
+---
+
+### Setup
+
+From `backend-flask`:
+
+```bash
 python3.11 -m venv venv     # or python3.10
-source venv/bin/activate    # Windows: venv\Scripts\activate
+source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install --upgrade pip
 pip install ultralytics flask flask-cors pillow
-\end{verbatim}
+```
 
-If you maintain a \texttt{requirements.txt}, you can instead run:
+If you maintain a `requirements.txt`, you can instead run:
 
-\begin{verbatim}
+```bash
 pip install -r requirements.txt
-\end{verbatim}
+```
 
 Copy your trained YOLOv8 classification weights to:
 
-\begin{verbatim}
+```bash
 backend-flask/model/model.pt
-\end{verbatim}
+```
 
-\subsubsection{Running the Backend}
+---
+
+### Running the Backend
 
 With the virtual environment active:
 
-\begin{verbatim}
+```bash
 python server.py
-\end{verbatim}
+```
 
 The service exposes:
 
-\begin{itemize}
-  \item \textbf{GET} \texttt{/health} -- basic status and \texttt{model\_loaded} flag.
-  \item \textbf{POST} \texttt{/predict} -- accepts JSON with:
-\end{itemize}
+- **GET** `/health` — Basic status and `model_loaded` flag  
+- **POST** `/predict` — Accepts JSON with:
 
-\begin{verbatim}
+```json
 {
   "grain_type": "toor",
   "image_base64": "<base64-encoded image data>"
 }
-\end{verbatim}
+```
 
 Response example:
 
-\begin{verbatim}
+```json
 {
   "predicted_class": "type_2",
   "confidence": 0.98
 }
-\end{verbatim}
+```
 
-\subsection{Frontend (Expo React Native)}
+---
 
-\subsubsection{Prerequisites}
+## Frontend (Expo React Native)
 
-\begin{itemize}
-  \item Node.js and npm or yarn.
-  \item Expo CLI (via \texttt{npx expo}).
-\end{itemize}
+### Prerequisites
 
-From \texttt{frontend-expo}:
+- Node.js and npm or yarn  
+- Expo CLI (via `npx expo`)
 
-\begin{verbatim}
+---
+
+### Setup & Run
+
+From `frontend-expo`:
+
+```bash
 npm install        # or: yarn
 npx expo start
-\end{verbatim}
+```
+
+---
+
+### Frontend Functionality
 
 The frontend:
 
-\begin{itemize}
-  \item Allows the user to select a grain type from a picker.
-  \item Captures or selects an image and encodes it as base64.
-  \item Sends a \textbf{POST} request to the backend's \texttt{/predict} endpoint with \texttt{grain\_type} and \texttt{image\_base64}.
-  \item Displays \texttt{predicted\_class} and \texttt{confidence} returned by the backend.
-\end{itemize}
+- Allows the user to select a grain type from a picker  
+- Captures or selects an image and encodes it as base64  
+- Sends a **POST** request to the backend `/predict` endpoint with `grain_type` and `image_base64`  
+- Displays `predicted_class` and `confidence` returned by the backend  
 
-Configure \texttt{SERVER\_URL} in the frontend to point to your backend instance, for example:
+Configure `SERVER_URL` in the frontend to point to your backend instance, for example:
 
-\begin{verbatim}
+```js
 const SERVER_URL = 'http://192.168.29.46:5001';
-\end{verbatim}
+```
 
-For a physical device, this must be the machine's LAN IP, not \texttt{127.0.0.1}.
+For a physical device, this must be the machine's LAN IP, not `127.0.0.1`.
 
-\subsection{Networking Notes}
+---
 
-\begin{itemize}
-  \item Backend default bind: \texttt{0.0.0.0:5001}.
-  \item Devices running the Expo app must be on the same network as the backend host.
-  \item You can verify connectivity via \texttt{http://<your-ip>:5001/health} in a mobile browser.
-\end{itemize}
+## Networking Notes
 
-\subsection{Version Control}
+- Backend default bind: `0.0.0.0:5001`  
+- Devices running the Expo app must be on the same network as the backend host  
+- You can verify connectivity via:
+
+```
+http://<your-ip>:5001/health
+```
+
+---
+
+## Version Control
 
 Recommended ignore rules:
 
-\begin{itemize}
-  \item \texttt{backend-flask/venv/}
-  \item \texttt{backend-flask/model/*.pt}
-  \item \texttt{frontend-expo/node\_modules/}
-  \item Any local environment files (for example \texttt{.env}, \texttt{.env.local} as applicable).
-\end{itemize}
+- `backend-flask/venv/`  
+- `backend-flask/model/*.pt`  
+- `frontend-expo/node_modules/`  
+- Any local environment files (for example `.env`, `.env.local`)
 
 Store secrets, local IPs, and model weights outside of version control.
+````
